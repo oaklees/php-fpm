@@ -36,11 +36,11 @@ RUN sed -i 's|.*error_log =.*|error_log=/proc/self/fd/2|g' 			/etc/php7/php-fpm.
     sed -i 's|.*listen =.*|listen = 9000|g' 						/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*user =.*|user = www-data|g' 							/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*group =.*|group = www-data|g' 							/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*max_children =.*|pm.max_children = \$PM_MAX_CHILDREN|g' 			/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*min_spare_servers =.*|pm.min_spare_servers = \$PM_MIN_SPARE_SERVERS|g' 	/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*max_spare_servers =.*|pm.max_spare_servers = \$PM_MAX_SPARE_SERVERS|g' 	/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*start_servers =.*|pm.start_servers = \$PM_START_SERVERS|g' 			/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*max_requests =.*|pm.max_requests = \$PM_MAX_REQUESTS|g' 			/etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*max_children =.*|pm.max_children = `${PM_MAX_CHILDREN}|g' 			/etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*min_spare_servers =.*|pm.min_spare_servers = \${PM_MIN_SPARE_SERVERS}|g' 	/etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*max_spare_servers =.*|pm.max_spare_servers = \${PM_MAX_SPARE_SERVERS}|g' 	/etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*start_servers =.*|pm.start_servers = \${PM_START_SERVERS}|g' 			/etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*max_requests =.*|pm.max_requests = \${PM_MAX_REQUESTS}|g' 			/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*date.timezone.*|date.timezone=UTC|g' 				/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*clear_env.*|clear_env=no|g' 						/etc/php7/php-fpm.d/www.conf && \
     # PHP.ini configuration
