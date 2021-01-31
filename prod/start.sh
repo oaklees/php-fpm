@@ -76,10 +76,6 @@ _run_database_migration() {
 
 _did_receive_sigterm() {
 
-  if [ -n "$FPM_PID" ]; then
-    _stop_fpm
-  fi
-
   if [ -n "$DATABASE_WORKER_PID" ]; then
     _stop_database_worker
   fi
@@ -92,8 +88,7 @@ _did_receive_sigterm() {
 }
 
 _start_fpm() {
-  php-fpm7 -R --nodaemonize &
-  FPM_PID=$!
+  exec php-fpm7 -R --nodaemonize
 }
 
 _stop_fpm () {
