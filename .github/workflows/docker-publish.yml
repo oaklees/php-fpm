@@ -1,0 +1,59 @@
+name: Docker
+
+on:
+  push:
+
+    branches:
+      - master
+
+jobs:
+
+  push:
+
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+       include:
+         - php-version: 7.1
+           alpine-version: 3.7
+         - php-version: 7.2
+           alpine-version: 3.9
+         - php-version: 7.3
+           alpine-version: 3.11
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: |
+          PROD_IMAGE=${{ github.actor }}/php:${{ matrix.php-version }}
+          DEV_IMAGE=${{ github.actor }}/php:${{ matrix.php-version }}-dev
+          
+          docker build --tag $PROD_IMAGE --build-arg ALPINE_VERSION=${{ matrix.alpine-version }} prod
+          docker build --tag $DEV_IMAGE  --build-arg ALPINE_VERSION=${{ matrix.alpine-version }} --build-arg BASE_IMAGE=$PROD_IMAGE dev
+
+      - name: Log into registry
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u ${{ github.actor }} --password-stdin
+
+      - name: Push image
+        run: |
+          #IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+
+          # Change all uppercase to lowercase
+          #IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+
+          # Strip git ref prefix from version
+          #VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          # Strip "v" prefix from tag name
+          #[[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          # Use Docker `latest` tag convention
+          #[ "$VERSION" == "master" ] && VERSION=latest
+
+          #echo IMAGE_ID=$IMAGE_ID
+          #echo VERSION=$VERSION
+
+          #docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $PROD_IMAGE
+          docker push $DEV_IMAGE
