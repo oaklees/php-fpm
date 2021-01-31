@@ -6,6 +6,13 @@ ROLE=${CONTAINER_ROLE:-app}
 ENVIRONMENT=${APP_ENV:-local}
 ARTISAN="/srv/www/artisan"
 
+# PHP-FPM configuration
+export PM_MAX_CHILDREN=${PM_MAX_CHILDREN:-50}
+export PM_START_SERVERS=${PM_START_SERVERS:-10}
+export PM_MIN_SPARE_SERVERS=${PM_MIN_SPARE_SERVERS:-5}
+export PM_MAX_SPARE_SERVERS=${PM_MAX_SPARE_SERVERS:-10}
+export PM_MAX_REQUESTS=${PM_MAX_REQUESTS:-1000}
+
 ##############################
 ##   Function Definitions   ##
 ##############################
