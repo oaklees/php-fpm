@@ -11,7 +11,7 @@ jobs:
   push:
 
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
        include:
@@ -28,9 +28,12 @@ jobs:
         run: |
           PROD_IMAGE=${{ github.actor }}/php:${{ matrix.php-version }}
           DEV_IMAGE=${{ github.actor }}/php:${{ matrix.php-version }}-dev
-          
+
           docker build --tag $PROD_IMAGE --build-arg ALPINE_VERSION=${{ matrix.alpine-version }} prod
           docker build --tag $DEV_IMAGE  --build-arg ALPINE_VERSION=${{ matrix.alpine-version }} --build-arg BASE_IMAGE=$PROD_IMAGE dev
+
+          echo "PROD_IMAGE=$PROD_IMAGE" >> $GITHUB_ENV
+          echo "DEV_IMAGE=$DEV_IMAGE" >> $GITHUB_ENV
 
       - name: Log into registry
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u ${{ github.actor }} --password-stdin
