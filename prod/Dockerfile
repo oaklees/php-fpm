@@ -70,5 +70,11 @@ WORKDIR /srv/www
 # Container port
 EXPOSE 9000
 
+# Default ENV
+ENV PM_MAX_CHILDREN=50 PM_START_SERVERS=10 \
+    PM_MIN_SPARE_SERVERS=5 PM_MAX_SPARE_SERVERS=10 \
+    PM_MAX_REQUESTS=1000 \
+    QUEUE_SLEEP=2
+
 # Default command to kick off our container
 CMD ["/usr/local/bin/start.sh"]
