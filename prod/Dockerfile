@@ -31,18 +31,18 @@ RUN apk --no-cache add \
     php7-zip
 
 # PHP-FPM configuration
-RUN sed -i 's|.*error_log =.*|error_log=/proc/self/fd/2|g' 			/etc/php7/php-fpm.conf && \
+RUN sed -i 's|.*error_log =.*|error_log=/proc/self/fd/2|g' 			            /etc/php7/php-fpm.conf && \
     # PHP-FPM pool configuration
-    sed -i 's|.*listen =.*|listen = 9000|g' 						/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*user =.*|user = www-data|g' 							/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*group =.*|group = www-data|g' 							/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*max_children =.*|pm.max_children = \${PM_MAX_CHILDREN}|g' 			/etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*listen =.*|listen = 9000|g' 						            /etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*user =.*|user = www-data|g' 							        /etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*group =.*|group = www-data|g' 							        /etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*max_children =.*|pm.max_children = \${PM_MAX_CHILDREN}|g' 		/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*min_spare_servers =.*|pm.min_spare_servers = \${PM_MIN_SPARE_SERVERS}|g' 	/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*max_spare_servers =.*|pm.max_spare_servers = \${PM_MAX_SPARE_SERVERS}|g' 	/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*start_servers =.*|pm.start_servers = \${PM_START_SERVERS}|g' 			/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*max_requests =.*|pm.max_requests = \${PM_MAX_REQUESTS}|g' 			/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*date.timezone.*|date.timezone=UTC|g' 				/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*clear_env.*|clear_env=no|g' 						/etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*start_servers =.*|pm.start_servers = \${PM_START_SERVERS}|g' 	/etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*max_requests =.*|pm.max_requests = \${PM_MAX_REQUESTS}|g' 		/etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*date.timezone.*|date.timezone=UTC|g' 				            /etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*clear_env.*|clear_env=no|g' 						            /etc/php7/php-fpm.d/www.conf && \
     # PHP.ini configuration
     sed -i 's|.*memory_limit=.*|memory_limit=256M|g' 							/etc/php7/php.ini && \
     sed -i 's|.*opcache.enable=.*|opcache.enable=1|g' 							/etc/php7/php.ini && \
@@ -50,7 +50,7 @@ RUN sed -i 's|.*error_log =.*|error_log=/proc/self/fd/2|g' 			/etc/php7/php-fpm.
     sed -i 's|.*memory_consumption.*|opcache.memory_consumption=256|g'			/etc/php7/php.ini && \
     sed -i 's|.*interned_strings_buffer.*|opcache.interned_strings_buffer=64|g' /etc/php7/php.ini && \
     sed -i 's|.*max_accelerated_files.*|opcache.max_accelerated_files=32531|g' 	/etc/php7/php.ini && \
-    sed -i 's|.*validate_timestamps.*|opcache.validate_timestamps=0|g' /etc/php7/php.ini && \
+    sed -i 's|.*validate_timestamps.*|opcache.validate_timestamps=0|g'          /etc/php7/php.ini && \
     sed -i 's|.*revalidate_freq.*|opcache.revalidate_freq=0|g' 					/etc/php7/php.ini && \
     sed -i 's|.*upload_max_filesize.*|upload_max_filesize = 128M|g' 			/etc/php7/php.ini && \
     sed -i 's|.*post_max_size.*|post_max_size = 128M|g' 						/etc/php7/php.ini && \
@@ -65,6 +65,7 @@ RUN set -x ; \
 COPY start.sh /usr/local/bin/
 RUN chmod u+x /usr/local/bin/start.sh
 
+# Add default working derectory
 WORKDIR /srv/www
 
 # Container port
