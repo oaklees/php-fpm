@@ -35,9 +35,10 @@ jobs:
           # Strip git ref prefix from version
           VERSION=$(echo "-${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
+          # If untagged, remove version
           [ "$VERSION" == "-master" ] && VERSION=""
 
-          PROD_IMAGE=oaklees/php:${{ matrix.php-version }}-$VERSION
+          PROD_IMAGE=oaklees/php:${{ matrix.php-version }}
           PROD_IMAGE_VERSIONED=$PROD_IMAGE$VERSION
 
           DEV_IMAGE=oaklees/php:${{ matrix.php-version }}-dev
