@@ -12,6 +12,7 @@ FROM ${BASE_IMAGE} as base
 
 # Add dev packages.
 RUN apk --no-cache add \
+    bash \
     php7-xdebug \
     php7-pdo_sqlite \
     php7-sqlite3 \
