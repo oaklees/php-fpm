@@ -33,7 +33,7 @@ jobs:
       - name: Publish images
         run: |
           # Strip git ref prefix from version
-          VERSION=$(echo "-${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          VERSION=-$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
           # If untagged, remove version
           [ "$VERSION" == "-master" ] && VERSION=""
