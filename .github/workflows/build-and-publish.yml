@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+    tags:
+      - v*
+
 jobs:
   push:
 
@@ -29,11 +32,19 @@ jobs:
 
       - name: Publish images
         run: |
-          PROD_IMAGE=oaklees/php:${{ matrix.php-version }}
-          DEV_IMAGE=oaklees/php:${{ matrix.php-version }}-dev
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
-          docker build --tag $PROD_IMAGE --build-arg ALPINE_VERSION=${{ matrix.alpine-version }} prod
-          docker build --tag $DEV_IMAGE --build-arg BASE_IMAGE=$PROD_IMAGE dev
+          PROD_IMAGE=oaklees/php:${{ matrix.php-version }}-$VERSION
+          PROD_IMAGE_VERSIONED=$PROD_IMAGE-$VERSION
+
+          DEV_IMAGE=oaklees/php:${{ matrix.php-version }}-dev
+          DEV_IMAGE_VERSIONED=$PROD_IMAGE-$VERSION
+
+          docker build --tag $PROD_IMAGE --tag $PROD_IMAGE-$VERSION --build-arg ALPINE_VERSION=${{ matrix.alpine-version }} prod
+          docker build --tag $DEV_IMAGE --tag $PROD_IMAGE-$VERSION --build-arg BASE_IMAGE=$PROD_IMAGE dev
 
           docker push $PROD_IMAGE
+          docker push $PROD_IMAGE_VERSIONED
           docker push $DEV_IMAGE
+          docker push $DEV_IMAGE_VERSIONED
