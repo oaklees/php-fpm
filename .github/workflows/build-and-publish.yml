@@ -8,11 +8,15 @@ on:
 jobs:
   push:
 
+    env:
+      REGISTRY: oaklees
+
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
        include:
+          # See https://liduan.net/2019/09/17/php-version-in-alpine-linux.html for PHP version vs Alpine version
          - php-version: 7.1
            alpine-version: 3.7
          - php-version: 7.2
@@ -23,21 +27,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build images
+      - name: Log into Docker registry
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u oaklees --password-stdin
+
+      - name: Publish images
         run: |
-          PROD_IMAGE=${{ github.actor }}/php:${{ matrix.php-version }}
-          DEV_IMAGE=${{ github.actor }}/php:${{ matrix.php-version }}-dev
+          PROD_IMAGE=$REGISTRY/php:${{ matrix.php-version }}
+          DEV_IMAGE=$REGISTRY/php:${{ matrix.php-version }}-dev
 
           docker build --tag $PROD_IMAGE --build-arg ALPINE_VERSION=${{ matrix.alpine-version }} prod
           docker build --tag $DEV_IMAGE --build-arg BASE_IMAGE=$PROD_IMAGE dev
 
-          echo "PROD_IMAGE=$PROD_IMAGE" >> $GITHUB_ENV
-          echo "DEV_IMAGE=$DEV_IMAGE" >> $GITHUB_ENV
-
-      - name: Log into registry
-        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u ${{ github.actor }} --password-stdin
-
-      - name: Push images
-        run: |
           docker push $PROD_IMAGE
           docker push $DEV_IMAGE
