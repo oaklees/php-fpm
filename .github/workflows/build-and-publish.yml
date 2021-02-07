@@ -8,9 +8,6 @@ on:
 jobs:
   push:
 
-    env:
-      CONTAINER_REGISTRY: docker.io/oaklees
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -28,12 +25,12 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Log into Docker registry
-        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login $CONTAINER_REGISTRY -u oaklees --password-stdin
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u oaklees --password-stdin
 
       - name: Publish images
         run: |
-          PROD_IMAGE=$CONTAINER_REGISTRY/php:${{ matrix.php-version }}
-          DEV_IMAGE=$CONTAINER_REGISTRY/php:${{ matrix.php-version }}-dev
+          PROD_IMAGE=oaklees/php:${{ matrix.php-version }}
+          DEV_IMAGE=oaklees/php:${{ matrix.php-version }}-dev
 
           docker build --tag $PROD_IMAGE --build-arg ALPINE_VERSION=${{ matrix.alpine-version }} prod
           docker build --tag $DEV_IMAGE --build-arg BASE_IMAGE=$PROD_IMAGE dev
