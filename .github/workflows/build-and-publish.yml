@@ -39,10 +39,10 @@ jobs:
           PROD_IMAGE_VERSIONED=$PROD_IMAGE-$VERSION
 
           DEV_IMAGE=oaklees/php:${{ matrix.php-version }}-dev
-          DEV_IMAGE_VERSIONED=$PROD_IMAGE-$VERSION
+          DEV_IMAGE_VERSIONED=$DEV_IMAGE-$VERSION
 
-          docker build --tag $PROD_IMAGE --tag $PROD_IMAGE-$VERSION --build-arg ALPINE_VERSION=${{ matrix.alpine-version }} prod
-          docker build --tag $DEV_IMAGE --tag $PROD_IMAGE-$VERSION --build-arg BASE_IMAGE=$PROD_IMAGE dev
+          docker build --tag $PROD_IMAGE --build-arg ALPINE_VERSION=${{ matrix.alpine-version }} prod
+          docker build --tag $DEV_IMAGE --build-arg BASE_IMAGE=$PROD_IMAGE dev
 
           docker push $PROD_IMAGE
           docker push $PROD_IMAGE_VERSIONED
