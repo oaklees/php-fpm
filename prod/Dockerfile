@@ -40,6 +40,7 @@ RUN sed -i 's|.*error_log =.*|error_log=/proc/self/fd/2|g' 			            /etc/p
     sed -i 's|.*max_spare_servers =.*|pm.max_spare_servers = \${PM_MAX_SPARE_SERVERS}|g' 	/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*start_servers =.*|pm.start_servers = \${PM_START_SERVERS}|g' 	/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*max_requests =.*|pm.max_requests = \${PM_MAX_REQUESTS}|g' 		/etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*process_idle_timeout =.*|pm.process_idle_timeout = \${PM_IDLE_TIMEOUT}|g' 		/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*date.timezone.*|date.timezone=UTC|g' 				            /etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*clear_env.*|clear_env=no|g' 						            /etc/php7/php-fpm.d/www.conf && \
     # PHP.ini configuration
@@ -73,7 +74,7 @@ EXPOSE 9000
 # Default ENV
 ENV PM_MAX_CHILDREN=50 PM_START_SERVERS=10 \
     PM_MIN_SPARE_SERVERS=5 PM_MAX_SPARE_SERVERS=10 \
-    PM_MAX_REQUESTS=1000 \
+    PM_MAX_REQUESTS=1000 PM_IDLE_TIMEOUT=30 \
     QUEUE_SLEEP=2
 
 # Default command to kick off our container
