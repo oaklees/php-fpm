@@ -35,12 +35,13 @@ RUN sed -i 's|.*error_log =.*|error_log=/proc/self/fd/2|g' 			            /etc/p
     sed -i 's|.*listen =.*|listen = 9000|g' 						            /etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*user =.*|user = www-data|g' 							        /etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*group =.*|group = www-data|g' 							        /etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*pm =.*|pm = \${PM_MODE}|g' 		                                /etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*max_children =.*|pm.max_children = \${PM_MAX_CHILDREN}|g' 		/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*min_spare_servers =.*|pm.min_spare_servers = \${PM_MIN_SPARE_SERVERS}|g' 	/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*max_spare_servers =.*|pm.max_spare_servers = \${PM_MAX_SPARE_SERVERS}|g' 	/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*start_servers =.*|pm.start_servers = \${PM_START_SERVERS}|g' 	/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*max_requests =.*|pm.max_requests = \${PM_MAX_REQUESTS}|g' 		/etc/php7/php-fpm.d/www.conf && \
-    sed -i 's|.*process_idle_timeout =.*|pm.process_idle_timeout = \${PM_IDLE_TIMEOUT}|g' 		/etc/php7/php-fpm.d/www.conf && \
+    sed -i 's|.*process_idle_timeout =.*|pm.process_idle_timeout = \${PM_IDLE_TIMEOUT}|g' 	/etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*date.timezone.*|date.timezone=UTC|g' 				            /etc/php7/php-fpm.d/www.conf && \
     sed -i 's|.*clear_env.*|clear_env=no|g' 						            /etc/php7/php-fpm.d/www.conf && \
     # PHP.ini configuration
@@ -65,16 +66,16 @@ RUN set -x ; \
 COPY start.sh /usr/local/bin/
 RUN chmod u+x /usr/local/bin/start.sh
 
-# Add default working derectory
+# Add default working directory
 WORKDIR /srv/www
 
 # Container port
 EXPOSE 9000
 
 # Default ENV
-ENV PM_MAX_CHILDREN=50 PM_START_SERVERS=10 \
+ENV PM_MODE=dynamic PM_MAX_CHILDREN=50 PM_START_SERVERS=10 \
     PM_MIN_SPARE_SERVERS=5 PM_MAX_SPARE_SERVERS=10 \
-    PM_MAX_REQUESTS=1000 PM_IDLE_TIMEOUT=30 \
+    PM_MAX_REQUESTS=1000 PM_IDLE_TIMEOUT=60 \
     QUEUE_SLEEP=2
 
 # Default command to kick off our container
