@@ -26,4 +26,4 @@ COPY 00_pcov.ini ./00_xdebug.ini /etc/php7/conf.d/
 # PHP-FPM configuration to enforce validate timestamps for opcache
 RUN sed -i 's|.*validate_timestamps.*|opcache.validate_timestamps=1|g' /etc/php7/php.ini && \
     # Composer install and configuration
-    php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --version=1.10.16 --filename=composer
+    php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --version=1.10.22 --filename=composer
