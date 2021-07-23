@@ -6,7 +6,7 @@ on:
       - base-images-alt
 
 jobs:
-  push:
+  publish:
 
     runs-on: ubuntu-latest
 
