@@ -5,6 +5,10 @@ on:
     branches:
       - base-images-alt
 
+  # 8:00 AM on Sunday
+  schedule:
+    - cron: '0 8 * * 0'
+
 jobs:
   publish:
 
@@ -16,6 +20,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: base-images-alt
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
