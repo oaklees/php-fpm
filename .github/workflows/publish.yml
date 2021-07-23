@@ -33,4 +33,5 @@ jobs:
           BUILD_CONTEXT: ${{ matrix.php }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: podpoint/php-fpm
-        run: ${BUILD_CONTEXT}/build.sh
+        run: |
+          cd ${BUILD_CONTEXT} && ./build.sh
