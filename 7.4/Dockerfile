@@ -3,6 +3,7 @@ FROM serversideup/php:7.4-fpm
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
 		git \
+		openssh-client \
 		php7.4-intl \
 		php7.4-xdebug \
 	&& apt-get clean \

@@ -3,6 +3,7 @@ FROM serversideup/php:8.0-fpm
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
 		git \
+		openssh-client \
 		php8.0-intl \
 		php8.0-xdebug \
 	&& apt-get clean \

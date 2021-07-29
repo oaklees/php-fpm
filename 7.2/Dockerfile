@@ -3,6 +3,7 @@ FROM 959744386191.dkr.ecr.eu-west-1.amazonaws.com/podpoint/php-fpm:7.2-fpm
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
 		git \
+		openssh-client \
 		php7.2-intl \
 		php7.2-xdebug \
 	&& apt-get clean \
