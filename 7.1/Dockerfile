@@ -6,6 +6,7 @@ RUN apt-get update \
 		openssh-client \
 		php7.1-intl \
 		php7.1-xdebug \
+		php7.1-imagick \
 	&& apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
 	&& sed -i 's/^/;/' /etc/php/7.1/mods-available/xdebug.ini
