@@ -14,6 +14,9 @@ RUN apt-get update \
 
 COPY xdebug-init.sh /etc/cont-init.d/
 
+# Apply PHP configuration files
+COPY y-override-php-defaults.conf /etc/php/8.0/fpm/pool.d/
+
 ENV WEBUSER_HOME=/srv/www
 
 WORKDIR /srv/www
