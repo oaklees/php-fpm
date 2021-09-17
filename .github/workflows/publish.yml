@@ -1,0 +1,43 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - base-images-alt
+
+  # 8:00 AM on Sunday
+  schedule:
+    - cron: '0 8 * * 0'
+
+jobs:
+  publish:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: ["7.1", "7.2", "7.4", "8.0"]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: base-images-alt
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ECR_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ECR_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build & publish images
+        env:
+          BUILD_CONTEXT: ${{ matrix.php }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: podpoint/php-fpm
+        run: |
+          cd ${BUILD_CONTEXT} && ./build.sh
