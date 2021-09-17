@@ -3,7 +3,7 @@ name: Publish
 on:
   push:
     branches:
-      - base-images-alt
+      - master
 
   # 8:00 AM on Sunday
   schedule:
