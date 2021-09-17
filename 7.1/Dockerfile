@@ -9,7 +9,7 @@ RUN apt-get update \
 		php7.1-imagick \
 		php7.1-gmp \
 	&& apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
+	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* \
 	&& sed -i 's/^/;/' /etc/php/7.1/mods-available/xdebug.ini
 
 COPY xdebug-init.sh /etc/cont-init.d/
